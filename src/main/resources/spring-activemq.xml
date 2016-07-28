@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    
+    <!-- 可以真正产生Connection的ConnectionFactory,由对应的JMS服务厂商提供-->
+    <bean id="defaultTargetConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+        <property name="brokerURL" value="tcp://localhost:61616"/>
+    </bean>
+    <!--Spring用于管理JMS服务商提供的ConnectionFactory的ConnectionFactory-->
+    <bean id="defaultConnectionFactory" class="org.springframework.jms.connection.SingleConnectionFactory">
+        <property name="targetConnectionFactory" value="defaultTargetConnectionFactory"/>
+    </bean>
+
+    <!--发送端列队 点对点-->
+    <bean id="defaultSendQueueName" class="org.apache.activemq.command.ActiveMQQueue">
+        <constructor-arg value="defaultSendQueueName"/>
+    </bean>
+
+    <!--接收端列队 点对点-->
+    <bean id="defaultReplyQueueName" class="org.apache.activemq.command.ActiveMQQueue">
+        <constructor-arg value="defaultReplyQueueName"/>
+    </bean>
+</beans>
